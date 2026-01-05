@@ -1,40 +1,33 @@
-package main 
+package main
 
 import "fmt"
 
 const (
+	english = "English"
 	spanish = "Spanish"
 	french  = "French"
-
-	englishHelloPrefix = "Hello, " 
-	spanishHelloPrefix = "Hola, "
-	frenchHelloPrefix = "Bonjour, "
 )
 
-func Hello(args ...string) string {
-	name := args[0]
-	prefix := englishHelloPrefix
+var helloPrefixes = map[string]string{
+	english: "Hello, ",
+	french: "Bonjour, ",
+	spanish: "Hola, ",
+}
+
+func Hello(name, language string) string {
+	prefix := helloPrefixes[english]
 
 	if name == "" {
 		name = "world"
 	}
 
-	if len(args) > 1 {
-		prefix = choosePrefix(args[1])
+	if p, ok := helloPrefixes[language]; ok {
+		prefix = p
 	}
 
 	return prefix + name
 }
 
-func choosePrefix(lang string) (prefix string) {
-	switch lang {
-	case spanish: prefix = spanishHelloPrefix
-	case french: prefix = frenchHelloPrefix
-	default: prefix = englishHelloPrefix
-	}
-	return
-}
-
 func main() {
-	fmt.Println(Hello("world"))
+	fmt.Println(Hello("world", ""))
 }
